@@ -1,10 +1,10 @@
 import styled from 'styled-components';
+import { ScrollableSection } from '../../shared/components/ScrollableSection';
 
 const padding = '18px';
 
 export const StyledCart = styled.div`
     width: 100%;
-    margin: 100px;
     max-width: 450px;
     max-height: 760px;
     border-radius: 10px;
@@ -17,42 +17,24 @@ export const StyledCart = styled.div`
 export const CartHeader = styled.div`
     width: 100%;
     padding: ${padding};
+    padding-right: calc(${padding} - 5px);
+    border-bottom: 2px solid #e5e5e5;
+
     text-align: center;
 `
 
-export const CartBody = styled.div`
+export const CartBody = styled(ScrollableSection)`
     flex: 1;
     width: 100%;
     padding: ${padding};
-    overflow-y: hidden;
-    padding-right: 5px;
-
-
-    ::-webkit-scrollbar-track {
-        box-shadow: none;
-        background-color: rgba(0,0,0,.1);
-        border-radius: 16px;
-    }
-
-    ::-webkit-scrollbar {
-        width: 5px;
-        position: absolute;
-        background-color: #F5F5F5;
-    }
-
-    ::-webkit-scrollbar-thumb {
-        background-color: rgba(0,0,0,.3);
-        border-radius: 16px; 
-    }
-
-    :hover {
-        overflow-y: auto;
-    }
 `
 
 export const CartTotalizers = styled.div`
     width: 100%;
+    font-size: 18px;
     padding: ${padding};
+    border-top: 2px solid #e5e5e5;
+    border-bottom: 2px solid #e5e5e5;
 `
 
 export const CartActions = styled.div`
@@ -74,4 +56,10 @@ export const CartConfirm = styled.button`
     font-weight: 700;
 
     cursor: pointer;
+
+    transition: background-color .3s ease;
+
+    &:hover {
+        background-color: #325bb5;
+    }
 `

@@ -6,12 +6,15 @@ import { CartItemList } from './CartItemList';
 import { CartService } from './CartService';
 import { Totalizer } from './Totalizer';
 import { CartBody, CartHeader, StyledCart, CartTotalizers, CartActions, CartConfirm } from './CartComponent';
-
+import { LoadingIndicator } from '../../shared/components/LoadingIndicator';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 export class Cart extends Component {
 
     state = {
-        items: []
+        fetching: false,
+        items: [],
+        value: 0
     }
 
     constructor(props) {
@@ -28,8 +31,14 @@ export class Cart extends Component {
     }
 
     async fetchCartData() {
-        const cartData = await this.cartService.getCartData();
-        this.setState({ ...cartData })
+        this.setState({ fetching: true})
+
+        try {
+            const cartData = await this.cartService.getCartData();
+            this.setState({ ...cartData, fetching: false })
+        } catch {
+            this.setState({ fetching: false })
+        }
     }
 
     render() {
@@ -39,16 +48,23 @@ export class Cart extends Component {
                     <h3>Meu Carrinho</h3>
                 </CartHeader>
                 <CartBody>
-                    <CartItemList>
-                        {this.state.items.map((data) => (
-                            <CartItem {...data}/>
-                        ))}
-                    </CartItemList>
+                    {this.state.fetching ? (
+                        <div style={{display: 'flex', justifyContent: 'center'}}>
+                            <LoadingIndicator color="#949494"/>
+                        </div>
+                    ) : (
+                        <CartItemList>
+                            {this.state.items.map((data, index) => (
+                                <CartItem {...data}/>
+                            ))}
+                        </CartItemList>
+                    )}
                 </CartBody>
                 <CartTotalizers>
                     <Totalizer
                         value = { this.state.value }
                         totalizers = { this.state.totalizers }
+                        minValueEligibleForFreeShipping = { this.props.minValueEligibleForFreeShipping }
                     />
                 </CartTotalizers>
                 <CartActions>

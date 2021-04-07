@@ -4,7 +4,7 @@ import styled from 'styled-components';
 const Thumb = styled.div`
     width: ${props => props.width};
     overflow: hidden;
-    
+    border: 1px solid #c9c9c9;
 `
 
 const ImageContainer = styled.div`
